@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MuTsala</title>
+    <!-- <link rel="stylesheet" href="https://api.myquran.com/v1/sholat/jadwal/1204/2023/09/06"> -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Young+Serif&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600;700&display=swap');
+nav {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    border: none;
+    outline: none;
+    scroll-behavior: smooth;
+    text-align: end;
+    background-color: var(--text-color);
+    height: 60px;
+    padding-top: 10px;
+    color: var(--text-color);
+}
+.surat {
+    margin-right: 1rem;
+}
+nav a {
+    color: var(--main-color) ;
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: var(--bg-color);
+    border-radius: 2rem 0.4rem;
+    box-shadow: 0 0 1rem var(--text-color);
+    font-size: 1.2rem;
+    color: var(--text-color);
+    font-weight: 500;
+    transition: .5s ease;
+}
+nav a:hover {
+    color: var(--second-bg-color);
+}
+/* css nav slesai */
+:root{
+    --bg-color: #D5D5D5;
+    --second-bg-color:#4E31AA;
+    --text-color:#3A1078;
+    --main-color: #B2F9FC;
+}
+html{
+    font-size: 100%;
+    overflow-x: hidden; 
+}
+body{
+    background-color: var(--bg-color);
+    color: var(--text-color);
+   }
+.container {
+    background-color: #BEADFA;
+    width: 15rem;
+    margin: auto auto 30px auto;
+    border-radius: 8px;
+    transition: .3s ease;
+    padding: 15px;
+    box-shadow: 0 5px 15px var(--main-color);
+}
+.container:hover {
+    color: #9400FF;
+    transform: translateY(5%);
+    transform: scale(1.1);
+}
+h1 {
+    text-align: center;
+    font-size: 280%;
+    font-family: 'Young Serif', serif;
+    margin-top: 10px;
+}
+.nama {
+    text-align: center;
+    padding-top: 5px;
+}
+.Translate {
+    text-align: center;
+    font-weight: bold;
+    font-family: 'Playfair Display', serif;
+}
+.Arti {
+    text-align: center;
+    font-family: 'Dancing Script', cursive;
+}
+/* .asmaJS  {
+    text-align: end;
+    font-family: 'Amiri', serif;
+    font-size: 23px;
+} */
+#resultAsma {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    align-items: center;
+    gap: 1rem;
+    /* width: 10rem; */
+}
+@media (max-width: 1200px) {
+    html {
+        font-size: 115%;
+    }
+    .container {
+        width: 283px;
+    }
+    .Arti {
+        font-size: 125%;
+    }
+    h1 {
+        text-align: center;
+    }
+    nav {
+        height: 65px;
+    }
+}
+@media (max-width: 911px) {
+    html {
+        font-size: 95%;
+    }
+    .container {
+        width: 80%;
+    }
+    h1 {
+        text-align: center;
+    }
+}
+@media (max-width: 768px) {
+    html {
+        font-size: 78%;
+    }
+    nav {
+        height: 48px;
+    }
+    .container {
+        width: 70%;
+        font-size: 115%;
+        height: 66%;
+    }
+    h1 {
+        text-align: center;
+    }
+}
+@media (max-width: 617px) {
+    html {
+        font-size: 60%;
+    }
+    nav {
+        height: 41px;
+    }
+    .container {
+        width: 80%;
+        font-size: 120%;
+    }
+    h1 {
+        text-align: center;
+    }
+}
+@media (max-width: 450px) {
+    html {
+        font-size: 61%;
+    }
+    nav {
+        height: 40px;
+    }
+    .container {
+        width: 80%;
+        font-size: 125%;
+        height: 70%;
+    }
+    h1 {
+        text-align: center;
+        font-size: 295%;
+    }
+    #resultAsma {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+    </style>
+</head>
+<body>
+    <nav>
+        <a class="Sholat" href="index.html">Jadwal sholat</a>
+        <a class="asma" href="asmaulHusna.html">Asmaul husna</a>
+        <a class="surat" href="listSurah.html">Surah al quran</a>
+    </nav>
+    <section>
+        <h1>Asmaul Husna</h1>
+    </section>
+    <div id="resultAsma"></div>
+
+    <script>
+         window.onload = function() {
+    getData();
+}
+        function getData() {
+        fetch("https://api.aladhan.com/v1/asmaAlHusna")
+        //kita kasih then lalu buat function
+        .then (function (response) {
+            if (!response.ok) { // klo misalkan respon nya tdk oke
+                throw new Error('Gagal mengambil data');
+            }
+            return response.json(); //ini klo berhasil
+        })
+        .then (function(data) {
+            displayData(data);
+            console.log(data);
+        })
+        .catch (function(error) {
+            console.log("Terjdi kesalahan", error);
+        })
+    }
+function displayData(data) {
+    var resultDiv = document.getElementById("resultAsma");
+    resultDiv.innerHTML = '';
+
+    data.data.forEach(function(surat) {
+        var AsmaDiv = document.createElement('div');
+        AsmaDiv.classList.add('Asma');
+        AsmaDiv.className = 'container'
+
+        var namaArab = document.createElement('h2');
+        namaArab.textContent = surat.name;
+        namaArab.className = 'nama';
+
+        // var hr = document.createElement('hr');
+        // hr.className = 'hr';
+
+        var Latin = document.createElement('p');
+        Latin.textContent = surat.transliteration;
+        Latin.className = 'Translate';
+
+        var Arti = document.createElement('p');
+        Arti.textContent = surat.en.meaning;
+        Arti.className = 'Arti';
+
+        AsmaDiv.appendChild(namaArab);
+        // AsmaDiv.appendChild(hr);
+        AsmaDiv.appendChild(Latin);
+        AsmaDiv.appendChild(Arti);
+        resultDiv.appendChild(AsmaDiv);
+
+    })
+}
+    </script>
+</body>
+</html>
